@@ -376,7 +376,7 @@ def add_note():
         date = request.form["date"]
         season = request.form["season"]
         weather = request.form["weather"].strip()
-        notes_text = request.form["notes"].strip()
+        notes_text = request.form.get("notes", "").strip()
         selected_fish = request.form.getlist("fish")
 
         # minimāla pārbaude
