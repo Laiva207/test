@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Pievienot ierakstu{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <form method="POST" class="card big-form">
+        <h1>Pievienot ierakstu</h1>
+
+        {% if error %}
+            <div class="alert">{{ error }}</div>
+        {% endif %}
+
+        <label>Makšķerēšanas vieta</label>
+        <select name="location" required>
+            {% for location in locations %}
+            <option value="{{ location }}">{{ location }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="hint-box">
+            <strong>Iespējamās zivis šai vietai:</strong> {{ suggested_fish | join(", ") }}
+        </div>
+
+        <label>Datums</label>
+        <input name="date" type="date" required>
+
+        <label>Gada laiks</label>
+        <select name="season" required>
+            <option value="Pavasaris">Pavasaris</option>
+            <option value="Vasara">Vasara</option>
+            <option value="Rudens">Rudens</option>
+            <option value="Ziema">Ziema</option>
+        </select>
+
+        <label>Laikapstākļi</label>
+        <input name="weather" placeholder="Piemēram, saulains, vējains" required>
+
+        <label>Noķertās zivis</label>
+
+        <div class="dropdown">
+            <div class="dropdown-btn" onclick="toggleDropdown()">
+                Izvēlies zivis ▼
+            </div>
+
+            <div class="dropdown-content" id="dropdownContent">
+                {% for f in fish %}
+                <label class="checkbox-item">
+                    <input type="checkbox" name="fish" value="{{ f.id }}">
+                    {{ f.name }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <label>Piezīmes</label>
+        <textarea name="notes" placeholder="Pieraksti par ēsmu, vietu, rezultātiem..."></textarea>
+
+        <div class="actions">
+            <button type="submit" class="btn">Saglabāt</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Atcelt</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

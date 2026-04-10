@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Admin panelis{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div>
+        <h1>Admin panelis</h1>
+        <p class="muted">Šeit admins var redzēt visu lietotāju ierakstus.</p>
+    </div>
+</div>
+
+<div class="notes-grid">
+    {% for note in notes %}
+    <div class="card note-card">
+        <div class="note-top">
+            <h3>{{ note.location }}</h3>
+            <span class="badge">{{ note.date }}</span>
+        </div>
+
+        <div class="meta-list">
+            <p><strong>Lietotājs:</strong> {{ note.username }}</p>
+            <p><strong>Sezona:</strong> {{ note.season }}</p>
+            <p><strong>Laikapstākļi:</strong> {{ note.weather }}</p>
+            <p><strong>Piezīmes:</strong> {{ note.notes if note.notes else "Nav pievienotas." }}</p>
+            <p>
+                <strong>Noķertās zivis:</strong>
+                {% if note.fish %}
+                    {{ note.fish | join(", ") }}
+                {% else %}
+                    Nav izvēlētas
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    {% else %}
+    <div class="card empty-card">
+        <h3>Nav neviena ieraksta</h3>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

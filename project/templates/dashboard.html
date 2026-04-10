@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div>
+        <h1>Sveiks, {{ session.get("username") }}!</h1>
+        <p class="muted">Šeit vari pārvaldīt savus makšķerēšanas ierakstus.</p>
+    </div>
+    <a href="{{ url_for('add_note') }}" class="btn">+ Pievienot ierakstu</a>
+</div>
+
+{% if weather_data %}
+<div class="card weather-card">
+    <div class="weather-header">
+        <h2>Pašreizējie laikapstākļi</h2>
+        <span class="badge">{{ weather_data.location }}</span>
+    </div>
+
+    <div class="weather-grid">
+        <div class="weather-box">
+            <span class="weather-label">Temperatūra</span>
+            <strong>{{ weather_data.temperature }} °C</strong>
+        </div>
+        <div class="weather-box">
+            <span class="weather-label">Vējš</span>
+            <strong>{{ weather_data.wind_speed }} km/h</strong>
+        </div>
+        <div class="weather-box">
+            <span class="weather-label">Stāvoklis</span>
+            <strong>{{ weather_data.weather_text }}</strong>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="notes-grid">
+    {% for note in notes %}
+    <div class="card note-card">
+        <div class="note-top">
+            <h3>{{ note.location }}</h3>
+            <span class="badge">{{ note.date }}</span>
+        </div>
+
+        <div class="meta-list">
+            <p><strong>Sezona:</strong> {{ note.season }}</p>
+            <p><strong>Laikapstākļi:</strong> {{ note.weather }}</p>
+            <p><strong>Piezīmes:</strong> {{ note.notes if note.notes else "Nav pievienotas." }}</p>
+            <p>
+                <strong>Noķertās zivis:</strong>
+                {% if note.fish %}
+                    {{ note.fish | join(", ") }}
+                {% else %}
+                    Nav izvēlētas
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="actions">
+            <a href="{{ url_for('edit_note', note_id=note.id) }}" class="btn btn-small">Rediģēt</a>
+            <a href="{{ url_for('delete_note', note_id=note.id) }}" class="btn btn-small btn-danger">Dzēst</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="card empty-card">
+        <h3>Vēl nav neviena ieraksta</h3>
+        <p class="muted">Pievieno savu pirmo makšķerēšanas piezīmi.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

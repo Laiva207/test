@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1>Laipni lūgts!</h1>
+        <p class="muted">Makšķerēšanas piezīmju sistēma ar vietām, zivīm un laikapstākļiem.</p>
+
+        {% if error %}
+            <div class="alert">{{ error }}</div>
+        {% endif %}
+
+        <div class="auth-grid">
+            <form method="POST" class="card form-card">
+                <h2>Ielogoties</h2>
+                <label>Lietotājvārds</label>
+                <input name="username" placeholder="Ievadi lietotājvārdu" required>
+
+                <label>Parole</label>
+                <input name="password" type="password" placeholder="Ievadi paroli" required>
+
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <form action="{{ url_for('register') }}" method="POST" class="card form-card">
+                <h2>Reģistrēties</h2>
+                <label>Lietotājvārds</label>
+                <input name="username" placeholder="Vismaz 3 simboli" required>
+
+                <label>Parole</label>
+                <input name="password" type="password" placeholder="Vismaz 6 simboli un 1 cipars" required>
+
+                <button type="submit" class="btn btn-secondary">Register</button>
+            </form>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <strong>Admin login:</strong> admin<br>
+            <strong>Admin parole:</strong> Admin123
+        </div>
+    </div>
+</div>
+{% endblock %}

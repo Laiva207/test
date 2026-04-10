@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Fishing Notes{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<script>
+function toggleDropdown() {
+    const dropdown = document.getElementById("dropdownContent");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+</script>
+<body>
+    <header class="topbar">
+        <div class="brand">🎣 Fishing Notes</div>
+
+        {% if session.get("username") %}
+        <nav class="nav">
+            {% if session.get("role") == "admin" %}
+                <a href="{{ url_for('admin_panel') }}">Admin panelis</a>
+            {% else %}
+                <a href="{{ url_for('dashboard') }}">Sākums</a>
+                <a href="{{ url_for('add_note') }}">Pievienot ierakstu</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}">Iziet</a>
+        </nav>
+        {% endif %}
+    </header>
+
+    <main class="page">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
